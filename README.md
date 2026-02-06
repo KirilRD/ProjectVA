@@ -1,185 +1,120 @@
-# vibecode-full-stack-starter-kit - Full-Stack Development Environment
+# AI Tools Directory  
+# Каталог AI инструменти
 
-Generated on: Thu Sep  4 01:37:12 PM EEST 2025
-Location: /home/softart/scripts/vibecode-full-stack-starter-kit
-
-## 🚀 Tech Stack
-
-- **Frontend**: Next.js + React + TypeScript (Port 8200)
-- **Backend**: Laravel + PHP 8.2 + Nginx (Port 8201)  
-- **Database**: MySQL 8.0 (Port 8203)
-- **Cache**: Redis 7 (Port 8204)
-- **Development Tools**: Alpine container (Port 8205)
-
-## 📋 Quick Start
-
-1. **Start the environment:**
-   ```bash
-   ./start.sh
-   ```
-
-2. **Access your applications:**
-   - Frontend: http://localhost:8200
-   - Backend: http://localhost:8201
-   - API Status: http://localhost:8201/api/status
-
-3. **Stop the environment:**
-   ```bash
-   ./stop.sh
-   ```
-
-## 🔧 Management Scripts
-
-- `./start.sh` - Start all services with auto-setup
-- `./stop.sh` - Stop all services
-- `./laravel-setup.sh` - Full Laravel initialization
-- `./db-manage.sh` - Database management utilities
-
-## 📁 Project Structure
-
-```
-vibecode-full-stack-starter-kit/
-├── frontend/             # Next.js application
-│   ├── src/             # Source code
-│   ├── public/          # Static assets
-│   ├── package.json     # Frontend dependencies
-│   └── next.config.js   # Next.js configuration
-├── backend/             # Laravel application
-│   ├── app/             # Application code
-│   ├── public/          # Web root
-│   ├── routes/          # API routes
-│   ├── database/        # Migrations, seeders
-│   ├── .env            # Laravel configuration
-│   └── composer.json    # Backend dependencies
-├── nginx/              # Nginx configuration
-├── docker/             # Docker configurations
-├── mysql/init/         # Database initialization
-├── tools/              # Development utilities
-├── docker-compose.yml  # Container orchestration
-└── README.md          # This documentation
-```
-
-## 🐳 Docker Services
-
-All services are isolated with unique names: `vibecode-full-stack-starter-kit_*`
-
-- **frontend** - Next.js development server
-- **backend** - Nginx reverse proxy
-- **php_fpm** - PHP-FPM for Laravel
-- **mysql** - MySQL 8.0 database
-- **redis** - Redis cache server
-- **tools** - Development utilities container
-
-## 💻 Development Commands
-
-### Frontend Development
-```bash
-# Access frontend container
-docker compose exec frontend sh
-
-# Install packages
-docker compose exec frontend npm install package-name
-
-# View frontend logs
-docker compose logs frontend -f
-```
-
-### Backend Development
-```bash
-# Access PHP container
-docker compose exec php_fpm sh
-
-# Laravel Artisan commands
-docker compose exec php_fpm php artisan --version
-docker compose exec php_fpm php artisan migrate
-docker compose exec php_fpm php artisan make:controller UserController
-docker compose exec php_fpm php artisan make:model Product -m
-
-# Composer commands
-docker compose exec php_fpm composer install
-docker compose exec php_fpm composer require laravel/sanctum
-
-# View backend logs
-docker compose logs backend -f
-docker compose logs php_fpm -f
-```
-
-### Database Operations
-```bash
-# Connect to MySQL
-./db-manage.sh connect
-
-# Create backup
-./db-manage.sh backup
-
-# Connect to Redis
-./db-manage.sh redis
-
-# Direct MySQL access
-docker compose exec mysql mysql -u root -pvibecode-full-stack-starter-kit_mysql_pass vibecode-full-stack-starter-kit_app
-```
-
-## 🔐 Database Configuration
-
-**MySQL Credentials:**
-- Host: mysql (internal) / localhost:8203 (external)
-- Database: vibecode-full-stack-starter-kit_app
-- Username: root
-- Password: vibecode-full-stack-starter-kit_mysql_pass
-
-**Redis Configuration:**
-- Host: redis (internal) / localhost:8204 (external)  
-- Password: vibecode-full-stack-starter-kit_redis_pass
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-1. **Port conflicts:**
-   - Check if ports 8200-8205 are available
-   - Use `netstat -tulpn | grep :PORT` to check port usage
-
-2. **Permission issues:**
-   - Run `./laravel-setup.sh` to fix Laravel permissions
-
-3. **Services not starting:**
-   - Check Docker is running: `docker ps`
-   - View logs: `docker compose logs`
-
-### Useful Commands
-
-```bash
-# Check service status
-docker compose ps
-
-# View all logs
-docker compose logs -f
-
-# Restart specific service
-docker compose restart frontend
-docker compose restart backend
-
-# Rebuild services
-docker compose up -d --build
-
-# Clean up (removes containers and volumes)
-docker compose down -v
-```
-
-## 📊 Monitoring
-
-- **Service Status**: `docker compose ps`
-- **Resource Usage**: `docker stats`
-- **Logs**: `docker compose logs -f [service_name]`
-
-## 🔄 Updates
-
-To update the environment:
-1. Pull latest images: `docker compose pull`
-2. Rebuild services: `docker compose up -d --build`
+**Language / Език:** [English](#english) | [Български](#български)
 
 ---
 
-**Generated with create-fullstack-env.sh**  
-**Project ID**: vibecode-full-stack-starter-kit  
-**Created**: Thu Sep  4 01:37:12 PM EEST 2025
+<a name="български"></a>
+
+## Български
+
+### Име на проекта
+
+**AI Tools Directory** (Каталог с AI инструменти) — уеб приложение за преглед, добавяне и одобрение на инструменти свързани с изкуствен интелект, с ролева система, коментари и интеграция с Docker.
+
+### Възможности
+
+- **Роли:** Owner, Admin, User (Backend, Frontend, QA, Designer, Project manager). Owner има пълен контрол и управление на потребители; Admin одобрява инструменти; потребителите преглеждат каталога и добавят инструменти.
+- **Система за одобрение на инструменти:** Новите инструменти са със статус *pending* и се одобряват от Admin/Owner в админ таблото.
+- **Коментари и оценки:** Потребителите могат да оставят ревюта и рейтинг (1–5) за одобрени инструменти.
+- **Docker интеграция:** Приложението се стартира с Docker Compose (Laravel, Next.js, MySQL, Redis).
+- **Сигурност No-Back-Cache:** Middleware предотвратява показване на кеширани чувствителни страници при натискане на бутона „Назад“ след изход; 2FA с еднократен код по имейл.
+
+### Инсталация и стартиране
+
+1. **Клониране и влизане в проекта:**
+   ```bash
+   cd full-stack-starter-kit
+   ```
+
+2. **Стартиране на услугите с Docker:**
+   ```bash
+   docker compose up -d
+   ```
+   Изчакайте около 15–20 секунди да стартират контейнерите.
+
+3. **Първоначална настройка (ако още не е направена):**
+   ```bash
+   docker compose exec php_fpm php artisan key:generate --force
+   docker compose exec php_fpm composer install --no-interaction
+   docker compose exec php_fpm php artisan migrate:fresh --seed
+   ```
+
+4. **Достъп:**
+   - **Бекенд (Laravel):** http://localhost:8201  
+   - **Фронтенд (Next.js):** http://localhost:8200  
+
+### Тестови потребители (след `migrate:fresh --seed`)
+
+| Роля   | Имейл              | Парола     |
+|--------|--------------------|------------|
+| **Owner**  | `kiril@admin.local`  | `password123` |
+| **Admin**  | `admin@admin.local`  | `password123` |
+| Обикновен потребител | `ivan@backend.local` | `password123` |
+
+При проблем с вход изпълнете отново:
+```bash
+docker compose exec php_fpm php artisan migrate:fresh --seed
+```
+
+### Технологичен стек
+
+| Слой       | Технология                    | Порт |
+|------------|--------------------------------|------|
+| Бекенд     | Laravel 12, PHP 8.2, Nginx     | 8201 |
+| Фронтенд   | Next.js 18, React, TypeScript | 8200 |
+| База данни | MySQL 8.0                     | 8203 |
+| Кеш        | Redis 7                       | 8204 |
+
+### Сигурност
+
+- **2FA:** След логин се изисква 6-цифрен код (изпратен по имейл), еднократен, с 15 мин. валидност.
+- **No-Back-Cache:** За чувствителни страници се подават no-cache заглавия; при Back за логнат потребител се показва потвърждение за изход.
+
+### Поздрави в интерфейса
+
+В хедъра за логнат потребител се показва поздрава на български:  
+*„Добре дошъл, [име]! Ти си с роля: [роля].“*
+
+---
+
+<a name="english"></a>
+
+## English
+
+### Project Name
+
+**AI Tools Directory** — Web application for browsing, submitting, and approving AI-related tools, with role-based access, comments/ratings, and Docker integration.
+
+### Features
+
+- **Roles:** Owner, Admin, User (Backend, Frontend, QA, Designer, Project manager). Owner has full control and user management; Admin approves tools; users browse the catalog and submit tools.
+- **Tool approval workflow:** New tools are *pending* until approved by Admin/Owner from the admin dashboard.
+- **Comments and ratings:** Users can leave reviews and 1–5 star ratings on approved tools.
+- **Docker integration:** Run the stack with Docker Compose (Laravel, Next.js, MySQL, Redis).
+- **No-Back-Cache security:** Middleware prevents cached sensitive pages when using the Back button after logout; 2FA with one-time email code.
+
+### Setup
+
+1. Clone and enter the project: `cd full-stack-starter-kit`
+2. Start services: `docker compose up -d`
+3. First-time setup:  
+   `docker compose exec php_fpm php artisan key:generate --force`  
+   `docker compose exec php_fpm composer install --no-interaction`  
+   `docker compose exec php_fpm php artisan migrate:fresh --seed`
+4. Open backend: http://localhost:8201 — frontend: http://localhost:8200
+
+### Test credentials (after seeding)
+
+| Role   | Email               | Password     |
+|--------|---------------------|--------------|
+| **Owner** | `kiril@admin.local` | `password123` |
+| **Admin** | `admin@admin.local` | `password123` |
+
+If login fails, run:  
+`docker compose exec php_fpm php artisan migrate:fresh --seed`
+
+---
+
+For AI-assisted development and agent setup, see `AI_DOCUMENTATION.md` and `AI_AGENTS.md`.

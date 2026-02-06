@@ -25,7 +25,8 @@ RUN apk add --no-cache \
         gd \
         zip \
         bcmath \
-        pcntl
+        pcntl \
+        exif
 
 # Install Redis extension
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \

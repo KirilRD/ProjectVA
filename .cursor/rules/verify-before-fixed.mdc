@@ -1,0 +1,22 @@
+---
+description: Always verify fixes before saying "it's fixed" or "everything is fixed"
+alwaysApply: true
+---
+
+# Verify Before Saying "Fixed"
+
+Before telling the user that something is fixed or that "everything is fixed":
+
+1. **Actually test the flow** when possible:
+   - Run the relevant commands (e.g. start server, hit the endpoint, submit the form).
+   - Use curl, tests, or a quick manual check to confirm the behavior.
+
+2. **Do not claim "it's fixed"** unless you have:
+   - Either run a verification step (e.g. curl GET/POST and checked status + content), or
+   - Explicitly stated that the user should verify (e.g. "Try X and confirm; if not, we can debug further").
+
+3. **Prefer:** "I've made these changes. I ran [brief verification]. You should see X when you do Y. If not, tell me what you see."
+
+4. **Avoid:** "Everything is fixed" or "It's fixed" without any verification step or clear instruction for the user to confirm.
+
+When the codebase allows (backend running, routes known), run a minimal check (e.g. one curl or one test) before saying the fix is done.

@@ -1,0 +1,33 @@
+---
+description: Use Git Bash (bash/sh) for all terminal commands, not PowerShell
+alwaysApply: true
+---
+
+# Terminal: Git Bash Only
+
+When suggesting or writing terminal commands for this project, **always use Git Bash (bash/sh) syntax**, not PowerShell or CMD.
+
+## Do
+
+- Use `&&` to chain commands: `cd backend && php artisan serve`
+- Use forward slashes in paths: `./start.sh`, `backend/.env`
+- Use `export VAR=value` for environment variables
+- Use `./script.sh` to run scripts
+- Use Unix-style: `npm run dev`, `docker compose up -d`
+
+## Don't
+
+- Don't use PowerShell: `Set-Location`, `;`, `.\script.ps1`
+- Don't use CMD: `cd /d`, `&&` with different semantics
+- Don't use PowerShell env: `$env:VAR = "value"`
+
+## Examples
+
+| Intent        | Use (Git Bash)           | Not (PowerShell)              |
+|---------------|--------------------------|-------------------------------|
+| Change dir    | `cd backend`             | `Set-Location backend`        |
+| Chain commands| `cd backend && php artisan migrate` | `Set-Location backend; php artisan migrate` |
+| Run script    | `./start.sh`                     | `.\start.ps1`           |
+| Env var       | `export APP_URL=http://localhost:8201` | `$env:APP_URL = "..."` |
+
+When the user runs commands in their terminal, assume they use **Git Bash**.
