@@ -32,7 +32,7 @@ return [
     */
 
     'deprecations' => [
-        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+        'channel' => 'null', // Ignore deprecations (e.g. PHP 8.5) so they don't clutter output
         'trace' => env('LOG_DEPRECATIONS_TRACE', false),
     ],
 

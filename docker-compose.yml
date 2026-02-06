@@ -13,13 +13,13 @@ services:
     image: node:18-alpine
     container_name: vibecode-full-stack-starter-kit_frontend
     ports:
-      - "8200:3000"  # Next.js frontend
+      - "8200:3000"  # host 8200 -> container 3000 (Next.js must listen on 3000 inside container)
     working_dir: /app
     volumes:
       - ./frontend:/app:cached
       - /app/node_modules
       - /app/.next
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "npm install && npx next dev --turbopack -p 3000"
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://localhost:8201/api
@@ -62,14 +62,14 @@ services:
       - ./docker/php.ini:/usr/local/etc/php/conf.d/laravel.ini:ro
       - ./docker/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf:ro
     environment:
-      # Database connection
+      # Database connection (README: MySQL 8.0)
       - DB_CONNECTION=mysql
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_DATABASE=vibecode-full-stack-starter-kit_app
       - DB_USERNAME=root
       - DB_PASSWORD=vibecode-full-stack-starter-kit_mysql_pass
-      # Redis connection
+      # Redis connection (README: Redis 7 for cache)
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=vibecode-full-stack-starter-kit_redis_pass
@@ -80,9 +80,18 @@ services:
       - APP_URL=http://localhost:8201
       - SESSION_DRIVER=redis
       - CACHE_DRIVER=redis
+      - CACHE_STORE=redis
+      # Mailpit (2FA emails, README)
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
     restart: unless-stopped
     networks:
       - vibecode-full-stack-starter-kit_network
+    depends_on:
+      - mysql
+      - redis
+      - mailpit
     healthcheck:
       test: ["CMD-SHELL", "php -v || exit 1"]
       interval: 30s
@@ -123,7 +132,7 @@ services:
 
   # Mailpit (local SMTP + web UI for testing mail)
   mailpit:
-    image: axllent/mailpit:latest
+    image: axllent/mailpit
     container_name: vibecode-full-stack-starter-kit_mailpit
     ports:
       - "8025:8025"  # Web UI dashboard

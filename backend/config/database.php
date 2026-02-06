@@ -2,6 +2,15 @@
 
 use Illuminate\Support\Str;
 
+// PHP 8.5+: use \Pdo\Mysql::ATTR_SSL_CA only (PDO::MYSQL_ATTR_SSL_CA is deprecated)
+$mysqlSslOptions = [];
+if (extension_loaded('pdo_mysql')) {
+    $sslCa = env('MYSQL_ATTR_SSL_CA');
+    if ($sslCa !== null && $sslCa !== '' && defined('\Pdo\Mysql::ATTR_SSL_CA')) {
+        $mysqlSslOptions = [\Pdo\Mysql::ATTR_SSL_CA => $sslCa];
+    }
+}
+
 return [
 
     /*
@@ -57,9 +66,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => $mysqlSslOptions,
         ],
 
         'mariadb' => [
@@ -77,9 +84,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => $mysqlSslOptions,
         ],
 
         'pgsql' => [

@@ -192,6 +192,8 @@ class ToolSeeder extends Seeder
             $payload = collect($data)->except('roles')->toArray();
             $payload['user_id'] = $users->random()->id;
             $payload['category_id'] = $categories->random()->id;
+            // SQLite: tools.roles is NOT NULL; provide empty JSON array
+            $payload['roles'] = json_encode($data['roles'] ?? []);
 
             // Ensure examples is JSON for the DB (avoids "Array to string conversion")
             if (isset($payload['examples']) && is_array($payload['examples'])) {
@@ -202,6 +204,12 @@ class ToolSeeder extends Seeder
                 ['name' => $data['name']],
                 $payload
             );
+
+            // README: some tools approved (catalog/API), rest pending (admin approval workflow)
+            $index = array_search($data, $toolsData);
+            if ($index !== false && $index < 10) {
+                $tool->update(['status' => 'approved', 'is_approved' => true]);
+            }
 
             $roleCount = random_int(1, min(3, $roles->count()));
             $randomRoleIds = $roles->random($roleCount)->pluck('id')->unique()->values()->all();

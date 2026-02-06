@@ -102,8 +102,9 @@ docker compose exec php_fpm php artisan migrate:fresh --seed
 3. First-time setup:  
    `docker compose exec php_fpm php artisan key:generate --force`  
    `docker compose exec php_fpm composer install --no-interaction`  
-   `docker compose exec php_fpm php artisan migrate:fresh --seed`
-4. Open backend: http://localhost:8201 — frontend: http://localhost:8200
+   `docker compose exec php_fpm php artisan migrate:fresh --seed`  
+   *(Artisan runs in the `php_fpm` container; see [DOCKER.md](DOCKER.md) for details.)*
+4. Open backend: http://localhost:8201 — frontend: http://localhost:8200. Mailpit UI: http://localhost:8025
 
 ### Test credentials (after seeding)
 
@@ -114,6 +115,16 @@ docker compose exec php_fpm php artisan migrate:fresh --seed
 
 If login fails, run:  
 `docker compose exec php_fpm php artisan migrate:fresh --seed`
+
+### Local backend without Docker (SQLite)
+
+To run the backend locally with SQLite (no Docker):
+
+1. In `backend/.env`: `DB_CONNECTION=sqlite`, `SESSION_DRIVER=file`, `CACHE_STORE=file`. The file `backend/database/database.sqlite` is created automatically on first boot if missing (when the SQLite driver is available).
+2. **"Could not find driver" for SQLite:** Enable the PHP PDO SQLite extension. In `php.ini` uncomment or add:  
+   `extension=pdo_sqlite` and `extension=sqlite3`  
+   Then run: `php artisan migrate:fresh --seed` and `php artisan serve --port=8201`.
+3. Frontend: set `NEXT_PUBLIC_API_URL=http://localhost:8201/api` and run on port 8200. CORS and Sanctum stateful domains already allow `localhost:8200`.
 
 ---
 

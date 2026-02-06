@@ -14,6 +14,11 @@ class CommentController extends Controller
      */
     public function store(Request $request, Tool $tool): RedirectResponse
     {
+        // README: comments/ratings only on approved tools
+        if (! $tool->is_approved || $tool->status !== 'approved') {
+            return back()->with('error', __('You can only leave reviews on approved tools.'));
+        }
+
         if (auth()->id() === $tool->user_id) {
             return back()->with('error', __('Не можете да оценявате собствен инструмент.'));
         }

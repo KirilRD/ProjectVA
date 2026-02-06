@@ -24,3 +24,5 @@ Route::get('/status', function () {
 Route::get('/user', [UserApiController::class, 'me'])->middleware('web')->name('api.user.me');
 
 Route::get('/tools', [App\Http\Controllers\Api\ToolApiController::class, 'index']);
+Route::post('/tools', [App\Http\Controllers\Api\ToolApiController::class, 'store'])
+    ->middleware(['web', 'auth']);

@@ -55,6 +55,7 @@ class Tool extends Model implements HasMedia
     protected $fillable = [
         'name',
         'type',
+        'roles',
         'link',
         'official_docs_link',
         'description',
@@ -74,6 +75,7 @@ class Tool extends Model implements HasMedia
     {
         return [
             'examples' => 'array',
+            'roles' => 'array',
             'is_active' => 'boolean',
             'is_approved' => 'boolean',
         ];
